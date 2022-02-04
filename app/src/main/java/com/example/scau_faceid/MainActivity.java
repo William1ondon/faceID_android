@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity {
      */
     public void jumpToFaceRecognizeActivity(View view) {
         Log.i("GOSH", "jumpToFaceRecognizeActivity: 1");
-        checkLibraryAndJump(RegisterAndRecognizeActivity.class);
+        checkLibraryAndJump(RegisterAndRecognizeActivity.class);//啊这
     }
 
 
