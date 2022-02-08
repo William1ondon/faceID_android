@@ -6,6 +6,9 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.util.Log;
@@ -18,6 +21,8 @@ import com.arcsoft.face.VersionInfo;
 import com.arcsoft.face.enums.RuntimeABI;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +59,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String sign = getSignMd5Str();
+        Log.i("SIGN", "onCreate: " + sign);
         libraryExists = checkSoFile(LIBRARIES);
         ApplicationInfo applicationInfo = getApplicationInfo();
         Log.i(TAG, "onCreate: " + applicationInfo.nativeLibraryDir);
@@ -65,6 +72,47 @@ public class MainActivity extends BaseActivity {
             Log.i(TAG, "onCreate: getVersion, code is: " + code + ", versionInfo is: " + versionInfo);
         }
         activeEngine(getCurrentFocus());
+    }
+
+    /**
+     * MD5加密
+     * @param byteStr 需要加密的内容
+     * @return 返回 byteStr的md5值
+     */
+    public static String encryptionMD5(byte[] byteStr) {
+        MessageDigest messageDigest = null;
+        StringBuffer md5StrBuff = new StringBuffer();
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(byteStr);
+            byte[] byteArray = messageDigest.digest();
+            for (int i = 0; i < byteArray.length; i++) {
+                if (Integer.toHexString(0xFF & byteArray[i]).length() == 1) {
+                    md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+                } else {
+                    md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+                }
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5StrBuff.toString();
+    }
+    /**
+     * 获取app签名md5值
+     */
+    public String getSignMd5Str() {
+        try {
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature[] signs = packageInfo.signatures;
+            Signature sign = signs[0];
+            String signStr = encryptionMD5(sign.toByteArray());
+            return signStr;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -194,7 +242,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    void afterRequestPermission(int requestCode, boolean isAllGranted) {
+    public void afterRequestPermission(int requestCode, boolean isAllGranted) {
         if (requestCode == ACTION_REQUEST_PERMISSIONS) {
             if (isAllGranted) {
                 activeEngine(null);

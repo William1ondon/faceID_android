@@ -7,5 +7,19 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mainBackground">#185BAC</color>
+    <color name="blue">#0598F8</color>
+    <color name="soft_blue">#29b7cb</color>
+    <color name="button_blue">#78cbe8</color>
+    <color name="gray">#EBEBEB</color>
+    <color name="cancel_red">#de1c31</color>
+    <color name="cancel_blue">#2486b9</color>
+    <color name="selected">#DCB86C</color>
+    <color name="green">#00FF00</color>
+    <color name="green_background">#28B5B1</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="color_bg_notification">#80000000</color>
     <color name="color_bg_name">#80000000</color>
 </resources>

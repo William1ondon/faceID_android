@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Scau_FaceID</string>
 
+    <!--Login-->
+    <string name="account_prompt">Account</string>
+    <string name="password_prompt">Password</string>
+    <string name="user_type">User Type</string>
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="forget_password">Forget password</string>
+    <string name="register_account">New account</string>
+    <string name="wait_message">Processing...Please wait</string>
+    <string name="contentDescription">TODO</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_prompt">请将发送的验证码填写在下方的输入框进行手机号验证（验证码有效期为十五分钟，如未收到验证码可在一分钟后重新发送）</string>
+    <string name="confirm_code">Confirm Code：</string>
+
     <!--settings、choose function page-->
     <string name="page_preview">face attributes detect(video)</string>
     <string name="page_ir_preview">ir liveness detect(video)</string>

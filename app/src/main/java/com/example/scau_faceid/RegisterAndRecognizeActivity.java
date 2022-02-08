@@ -608,7 +608,7 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
     }
 
     @Override
-    void afterRequestPermission(int requestCode, boolean isAllGranted) {
+    public void afterRequestPermission(int requestCode, boolean isAllGranted) {
         if (requestCode == ACTION_REQUEST_PERMISSIONS) {
             if (isAllGranted) {
                 //权限都打开后启动识别引擎及摄像头

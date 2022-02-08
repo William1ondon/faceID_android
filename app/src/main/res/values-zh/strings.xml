@@ -2,6 +2,20 @@
     <!--app名称-->
     <string name="app_name">Scau_FaceID</string>
 
+    <!--Login-->
+    <string name="account_prompt">请输入账号</string>
+    <string name="password_prompt">请输入密码</string>
+    <string name="user_type">用户角色：</string>
+    <string name="teacher">教师</string>
+    <string name="student">学生</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="register_account">注册账号</string>
+    <string name="wait_message">请求执行中，请等待</string>
+    <string name="contentDescription">TODO</string>
+    <string name="confirm">验证</string>
+    <string name="confirm_prompt">请将发送的验证码填写在下方的输入框进行手机号验证（验证码有效期为十五分钟，如未收到验证码可在一分钟后重新发送）</string>
+    <string name="confirm_code">验证码：</string>
+
     <!--配置、功能选择界面-->
     <string name="page_preview">人脸属性检测（视频）</string>
     <string name="page_ir_preview">红外活体检测（视频）</string>
