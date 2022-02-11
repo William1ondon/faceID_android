@@ -18,9 +18,9 @@
     <!--settings、choose function page-->
     <string name="page_preview">face attributes detect(video)</string>
     <string name="page_ir_preview">ir liveness detect(video)</string>
-    <string name="page_face_recognize">face compare 1:n(video vs database,rgb liveness detect)</string>
+    <string name="FaceRecognize">Face Recognize(Teacher Only)</string>
     <string name="page_ir_face_recognize">face compare 1:n(video vs database,ir liveness detect)</string>
-    <string name="page_single_image">face attributes detect(image)</string>
+    <string name="UploadFaceFeature">Upload Face Feature</string>
     <string name="page_multi_image">face compare 1:n(image vs image)</string>
     <string name="page_face_manage">face manage</string>
     <string name="get_device_finger_failed">get device finger failed, code is: %d</string>
@@ -39,7 +39,7 @@
     <string name="ft_op_all">detect all degrees in video mode</string>
 
     <!--face attributes detect(image) page-->
-    <string name="start_process">process</string>
+    <string name="start_process">Click To Upload</string>
     <string name="choose_local_image">choose local image</string>
     <string name="processing">processing</string>
 

@@ -54,6 +54,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         accountEdit = findViewById(R.id.login_account);
         passwordEdit = findViewById(R.id.login_password);
         radioGroup = findViewById(R.id.radioGroup1);

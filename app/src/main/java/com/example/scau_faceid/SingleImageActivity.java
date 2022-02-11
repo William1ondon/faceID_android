@@ -97,6 +97,11 @@ public class SingleImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_process);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         student = (AccountStudent)getIntent().getSerializableExtra("data");
 
         Log.d("OMG", "onCreate: 1");

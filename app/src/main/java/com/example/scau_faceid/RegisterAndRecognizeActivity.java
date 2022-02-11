@@ -171,6 +171,11 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_and_recognize);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         //保持亮屏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 

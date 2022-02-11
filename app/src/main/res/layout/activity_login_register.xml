@@ -1,346 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/registerbackground"
     tools:context=".login.LoginRegisterActivity">
 
-    <include layout="@layout/action_bar" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="姓名："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="text"
-            android:maxLines="1"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="学号："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="number"
-            android:maxLength="15"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="密码："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_password"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="textPassword"
-            android:maxLength="15"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="确认密码："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_confirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="textPassword"
-            android:maxLength="15"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="性别："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/account_register_male"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="男"
-                android:textSize="17sp" />
-
-            <RadioButton
-                android:id="@+id/account_register_female"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="女"
-                android:textSize="17sp" />
-
-        </RadioGroup>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="专业班级："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_class"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:hint="例：电子信息类工科4班"
-            android:maxLength="15"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="手机号："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="phone"
-            android:maxLength="11"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="邮箱："
-            android:textColor="@color/black"
-            android:textSize="@dimen/fontSize_2" />
-
-        <EditText
-            android:id="@+id/account_register_email"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/style_ellipse_gray"
-            android:inputType="textEmailAddress"
-            android:maxLength="20"
-            android:paddingStart="10dp"
-            android:paddingTop="5dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
-            android:singleLine="true" />
-
-    </LinearLayout>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="30dp"
-        android:layout_weight="1">
+        android:background="@drawable/style_ellipse_white"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:id="@+id/account_register_start"
+        <include layout="@layout/action_bar" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline9">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="专业班级:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_class"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:hint="例：电子信息类工科4班"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@id/guideline14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline9"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline17"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline14">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="手机号:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="12"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@id/guideline17"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline14"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="确认密码:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@id/guideline9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline8"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline17">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="邮箱:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@+id/guideline16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline17"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="密码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:hint="填写长度不超过10的任意字符"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@id/guideline8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline10"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline15">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="学号:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <EditText
+                android:id="@+id/account_register_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:inputType="number"
+                android:maxLines="1"
+                android:maxLength="12"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@id/guideline10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline15"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/style_ellipse_blue"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp"
-            android:text="完成注册"
-            android:textSize="@dimen/fontSize_2"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.06" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.19" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.73" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.64" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.10" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline18">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="姓名:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+
+            <EditText
+                android:id="@+id/account_register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/style_ellipse_gray"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/fontSize_2"
+                app:layout_constraintBottom_toTopOf="@+id/guideline15"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline18"
+                app:layout_constraintVertical_bias="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/guideline11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline16">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:gravity="center"
+                android:text="性别:"
+                android:textColor="@color/white"
+                android:textSize="@dimen/fontSize_2" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/account_register_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="50dp"
+                    android:text="男"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <RadioButton
+                    android:id="@+id/account_register_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="30dp"
+                    android:text="女"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/account_register_start"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:onClick="onRegisterClicked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="onRegisterClicked"/>
+            app:layout_constraintTop_toTopOf="@id/guideline11"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/icon_login" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.37" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.46" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.28" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.82" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.92" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

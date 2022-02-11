@@ -47,6 +47,11 @@ public class ConfirmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         student = (AccountStudent) getIntent().getSerializableExtra("data");
 
         btnSendMsg = findViewById(R.id.btnSendMsg);

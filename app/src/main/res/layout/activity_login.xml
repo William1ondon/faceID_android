@@ -7,7 +7,6 @@
     android:background="@drawable/loginbackground"
     tools:context=".login.LoginActivity">
 
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -96,6 +95,7 @@
 
         <EditText
             android:id="@+id/login_account"
+            android:text="201834020410"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -116,6 +116,7 @@
 
         <EditText
             android:id="@+id/login_password"
+            android:text="226044"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -149,7 +150,7 @@
                 android:layout_marginStart="20dp"
                 android:gravity="center"
                 android:text="@string/user_type"
-                android:textSize="@dimen/fontSize_1" />
+                android:textSize="@dimen/fontSize_2" />
 
             <RadioGroup
                 android:id="@+id/radioGroup1"

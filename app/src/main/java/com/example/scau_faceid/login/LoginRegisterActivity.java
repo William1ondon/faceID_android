@@ -61,6 +61,11 @@ public class LoginRegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         nameText = findViewById(R.id.account_register_name);
         studentText = findViewById(R.id.account_register_account);
         passwordText = findViewById(R.id.account_register_password);

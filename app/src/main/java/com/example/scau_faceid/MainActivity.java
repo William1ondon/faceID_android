@@ -64,6 +64,11 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //隐藏标题栏
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
+
         student = (AccountStudent) getIntent().getSerializableExtra("data");
 
         String sign = getSignMd5Str();

@@ -18,14 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="jumpToSingleImageActivity"
-            android:text="@string/page_single_image" />
+            android:text="@string/UploadFaceFeature" />
 
         <Button
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="jumpToFaceRecognizeActivity"
-            android:text="@string/page_face_recognize" />
+            android:text="@string/FaceRecognize" />
 
 
     </LinearLayout>
