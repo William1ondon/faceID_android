@@ -4,8 +4,13 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.arcsoft.face.FaceFeature;
+import com.example.scau_faceid.faceserver.CompareResult;
 import com.example.scau_faceid.info.AccountStudent;
+import com.example.scau_faceid.info.AccountTeacher;
+import com.mysql.jdbc.util.Base64Decoder;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,11 +18,15 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Base64;
 
 public class DBUtils {
     private static final String TAG = "DBUtils";
+
+    private ArrayList<AccountStudent> StudentList = null;
 
     private static Connection getConnection(String dbName) {
         Connection conn = null;
@@ -121,5 +130,146 @@ public class DBUtils {
         }
         close(conn);
         return false;
+    }
+
+    public static AccountStudent StudentLogin(String ETAccount, String ETPassword) {
+        Connection conn = getConnection("test_database");
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("select * from StudentInfo ");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                if (rs.getObject("Account").equals(ETAccount) && rs.getObject("Password").equals(ETPassword)) {
+                    AccountStudent student = new AccountStudent(rs.getObject("Name").toString(), rs.getObject("Account").toString(), rs.getObject("Password").toString(), (Boolean) rs.getObject("Sex"), rs.getObject("Major").toString(), rs.getObject("Phone").toString(), rs.getObject("Email").toString(), null);
+                    return student;
+                }
+            }
+            close(rs, conn);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            close(rs, conn);
+        }
+        return null;
+    }
+
+    public static AccountTeacher TeacherLogin(String ETAccount, String ETPassword) {
+        Connection conn = getConnection("test_database");
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = conn.prepareStatement("select * from TeacherInfo ");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                if (rs.getObject("Account").equals(ETAccount) && rs.getObject("Password").equals(ETPassword)) {
+                    AccountTeacher teacher = new AccountTeacher(rs.getObject("Account").toString(), rs.getObject("Password").toString());
+                    return teacher;
+                }
+            }
+            close(rs, conn);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            close(rs, conn);
+        }
+        return null;
+    }
+
+    public static Boolean returnBoolean(AccountStudent loginStudent) {
+        if (loginStudent != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean ReturnBoolean(AccountTeacher loginTeacher) {
+        if (loginTeacher != null) {
+            return true;
+        }
+        return null;
+    }
+
+    public static boolean ifFeatureUploaded(AccountStudent student, byte[] dbFaceFeature) {
+        String afterReplace = Base64Encoder(dbFaceFeature);
+        Base64Decoder(afterReplace);
+        Log.i("WEIWEIWEI", "ifFeatureUploaded: " + afterReplace + "长度为:" + afterReplace.length());
+        String sql = "update StudentInfo set FaceFeature = '" + afterReplace + "' where Account = '" + student.getAccount() + "'";
+        Connection conn = getConnection("test_database");
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            boolean success = pstmt.execute();
+            close(conn);
+            return !success;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        close(conn);
+        return false;
+    }
+
+    private static String Base64Encoder(byte[] dbFaceFeature) {//人脸特征数据采用Base64编码成string后再上传到数据库，否则乱码中的单引号会引起sql语法错误
+        Base64.Encoder base64 = null;
+        String result = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            base64 = Base64.getEncoder();
+            result = base64.encodeToString(dbFaceFeature);
+        }
+        return result;
+    }
+
+    private static byte[] Base64Decoder(String s) {
+        Base64.Decoder base64 = null;
+        String justForCheck = null;
+        byte[] result = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            base64 = Base64.getDecoder();
+            result = base64.decode(s);
+            justForCheck = new String(result);
+            Log.i("WEIWEIWEI", "Base64Decoder: " + justForCheck);
+        }
+        return result;
+    }
+
+
+    public int initStudentList() {
+        Connection conn = getConnection("test_database");
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        StudentList = new ArrayList<AccountStudent>();
+        try {
+            pstmt = conn.prepareStatement("select * from StudentInfo ");
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                if (rs.getObject("FaceFeature") != null) {
+                    Log.i("SHAQINGKUANG", "initStudentList: " + rs.getObject("Name").toString()+" "+rs.getObject("Account").toString()+" "+rs.getObject("Password").toString()+" "+(Boolean) rs.getObject("Sex")+" "+rs.getObject("Major").toString()+" "+rs.getObject("Phone").toString()+" "+rs.getObject("Email").toString()+" "+Base64Decoder(rs.getObject("FaceFeature").toString()).toString());
+                    byte[] tempBytes = Base64Decoder(rs.getObject("FaceFeature").toString());
+                    String s = new String(tempBytes);
+                    Log.i("SHAQINGKUANG", "initStudentList: "+s);
+                    StudentList.add(new AccountStudent(rs.getObject("Name").toString()
+                            , rs.getObject("Account").toString()
+                            , rs.getObject("Password").toString()
+                            , (Boolean) rs.getObject("Sex")
+                            , rs.getObject("Major").toString()
+                            , rs.getObject("Phone").toString()
+                            , rs.getObject("Email").toString()
+                            , tempBytes));
+                    Log.i("SHAQINGKUANG", "initStudentList: ");
+                }
+            }
+
+            close(rs, conn);
+            return StudentList.size();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            close(rs, conn);
+        }
+        return 0;
+    }
+
+    public AccountStudent getStudent(int index){
+        return StudentList.get(index);
     }
 }

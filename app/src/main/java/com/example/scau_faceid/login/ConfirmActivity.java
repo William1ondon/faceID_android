@@ -92,7 +92,9 @@ public class ConfirmActivity extends BaseActivity {
                                 @Override
                                 public void onNext(Boolean if_uploaded) {
                                     if (if_uploaded == true) {
-                                        start_flag = true;
+                                        startActivity(new Intent(ConfirmActivity.this, MainActivity.class)
+                                                .putExtra("data", student)
+                                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));//结束掉之前的Activity
                                     } else {
                                         showToast("上传失败，请检测网络!");
                                     }
@@ -108,12 +110,6 @@ public class ConfirmActivity extends BaseActivity {
                                 public void onComplete() {
                                 }
                             });
-
-                    if (start_flag == true) {
-                        startActivity(new Intent(ConfirmActivity.this, MainActivity.class)
-                                .putExtra("data", student)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));//结束掉之前的Activity
-                    }
                 } else {
                     showToast("验证码错误");
                     etCode.setText("");

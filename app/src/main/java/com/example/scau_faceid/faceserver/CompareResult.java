@@ -1,15 +1,18 @@
 package com.example.scau_faceid.faceserver;
 
 
+import com.example.scau_faceid.info.AccountStudent;
 
 public class CompareResult {
     private String userName;
     private float similar;
     private int trackId;
+    private AccountStudent student;
 
-    public CompareResult(String userName, float similar) {
+    public CompareResult(String userName, float similar, AccountStudent student) {
         this.userName = userName;
         this.similar = similar;
+        this.student = student;
     }
 
 
@@ -35,5 +38,13 @@ public class CompareResult {
 
     public void setTrackId(int trackId) {
         this.trackId = trackId;
+    }
+
+    public AccountStudent getStudent() {
+        return student;
+    }
+
+    public void setStudent(AccountStudent student) {
+        this.student = student;
     }
 }

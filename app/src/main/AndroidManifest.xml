@@ -45,6 +45,7 @@
         <activity android:name=".login.ModifyPasswordActivity"/>
         <activity android:name=".login.ConfirmActivity"/>
         <activity android:name=".MainActivity"/>
+        <activity android:name=".CheckAttendance"/>
     </application>
 
 </manifest>

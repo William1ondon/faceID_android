@@ -40,36 +40,22 @@ public class LoginRegisterActivity extends BaseActivity {
     @BindView(R.id.account_register_phone) EditText phoneText;
     @BindView(R.id.account_register_email) EditText emailText;*/
 
-    EditText nameText;
-    EditText studentText;
-    EditText passwordText;
-    EditText confirmText;
-    EditText classText;
-    EditText phoneText;
-    EditText emailText;
-    RadioGroup radioGroup;
-    RadioButton radioButton1;
-    RadioButton radioButton2;
+    private EditText nameText;
+    private EditText studentText;
+    private EditText passwordText;
+    private EditText confirmText;
+    private EditText classText;
+    private EditText phoneText;
+    private EditText emailText;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton1;
+    private RadioButton radioButton2;
 
     private Boolean sex;
     private AccountStudent student;
     private String TAG = "LoginRegisterActivity";
     private boolean start_flag = false;//是否启动ConfirmActivity的标志位
 
-    /**
-     * 先判断账号是否已存在，账号不存在则进行手机号验证
-     */
-    /*Handler handler = new Handler(msg -> {
-        String message = msg.getData().getString("message");
-        if ("1".equals(message)){
-            Toast.makeText(this, "账号已存在", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        Intent intent = new Intent("com.example.project_android.activity.login.ConfirmActivity");
-        intent.putExtra("data",student);
-        startActivity(intent);
-        return false;
-    });*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +91,6 @@ public class LoginRegisterActivity extends BaseActivity {
         String password = passwordText.getText().toString();
         String phone = phoneText.getText().toString();
         String email = emailText.getText().toString();
-        Log.i("COMEON", "onRegisterClicked: ");
         if (!passwordText.getText().toString().equals(confirmText.getText().toString())) {
             showToast("两次密码不一致");
             return;
@@ -113,12 +98,11 @@ public class LoginRegisterActivity extends BaseActivity {
         if (name.isEmpty() || account.isEmpty() || password.isEmpty() || sex == null ||
                 major.isEmpty() || phone.isEmpty() || email.isEmpty() ||
                 !CommenUtil.IsEmail(email) || !CommenUtil.isPhone(phone)) {
-            Log.i("WHAT?", "onRegisterClicked: " + name + account + password + major + phone + email);
             showToast("请将注册资料填写完整");
             return;
         }
 
-        student = new AccountStudent(name, account, password, sex, major, phone, email);
+        student = new AccountStudent(name, account, password, sex, major, phone, email,null);
 
         Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
@@ -159,7 +143,7 @@ public class LoginRegisterActivity extends BaseActivity {
         }
     }
 
-    public void onRadioCheck(int checkId) {
+    private void onRadioCheck(int checkId) {
         switch (checkId) {
             case R.id.account_register_male:
                 sex = true;

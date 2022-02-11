@@ -44,6 +44,8 @@ import com.arcsoft.imageutil.ArcSoftImageFormat;
 import com.arcsoft.imageutil.ArcSoftImageUtil;
 import com.arcsoft.imageutil.ArcSoftImageUtilError;
 import com.bumptech.glide.Glide;
+import com.example.scau_faceid.info.AccountStudent;
+import com.example.scau_faceid.util.DBUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +67,7 @@ public class SingleImageActivity extends BaseActivity {
     private TextView tvNotice;
     private FaceEngine faceEngine;
     private int faceEngineCode = -1;
+    private AccountStudent student;
     /**
      * 请求权限的请求码
      */
@@ -93,6 +96,9 @@ public class SingleImageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_process);
+
+        student = (AccountStudent)getIntent().getSerializableExtra("data");
+
         Log.d("OMG", "onCreate: 1");
         initView();
         /**
@@ -115,7 +121,7 @@ public class SingleImageActivity extends BaseActivity {
     private void initEngine() {
         faceEngine = new FaceEngine();
         faceEngineCode = faceEngine.init(this, DetectMode.ASF_DETECT_MODE_IMAGE, DetectFaceOrientPriority.ASF_OP_ALL_OUT,
-                16, 10, FaceEngine.ASF_FACE_RECOGNITION | FaceEngine.ASF_FACE_DETECT | FaceEngine.ASF_AGE | FaceEngine.ASF_GENDER | FaceEngine.ASF_FACE3DANGLE | FaceEngine.ASF_LIVENESS);
+                16, 10, FaceEngine.ASF_FACE_RECOGNITION | FaceEngine.ASF_FACE_DETECT);
         Log.i(TAG, "initEngine: init: " + faceEngineCode);
 
         if (faceEngineCode != ErrorInfo.MOK) {
@@ -320,157 +326,64 @@ public class SingleImageActivity extends BaseActivity {
         }
         addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
 
-
-        /**
-         * 4.上一步已获取到人脸位置和角度信息，传入给process函数，进行年龄、性别、三维角度、活体检测
-         */
-
-        long processStartTime = System.currentTimeMillis();
-        int faceProcessCode = faceEngine.process(bgr24, width, height, FaceEngine.CP_PAF_BGR24, faceInfoList, FaceEngine.ASF_AGE | FaceEngine.ASF_GENDER | FaceEngine.ASF_FACE3DANGLE | FaceEngine.ASF_LIVENESS);
-
-        if (faceProcessCode != ErrorInfo.MOK) {
-            addNotificationInfo(notificationSpannableStringBuilder, new ForegroundColorSpan(Color.RED), "process failed! code is ", String.valueOf(faceProcessCode), "\n");
-        } else {
-//            Log.i(TAG, "processImage: process costTime = " + (System.currentTimeMillis() - processStartTime));
-        }
-        //年龄信息结果
-        List<AgeInfo> ageInfoList = new ArrayList<>();
-        //性别信息结果
-        List<GenderInfo> genderInfoList = new ArrayList<>();
-        //人脸三维角度结果
-        List<Face3DAngle> face3DAngleList = new ArrayList<>();
-        //活体检测结果
-        List<LivenessInfo> livenessInfoList = new ArrayList<>();
-        //获取年龄、性别、三维角度、活体结果
-        int ageCode = faceEngine.getAge(ageInfoList);
-        int genderCode = faceEngine.getGender(genderInfoList);
-        int face3DAngleCode = faceEngine.getFace3DAngle(face3DAngleList);
-        int livenessCode = faceEngine.getLiveness(livenessInfoList);
-
-        if ((ageCode | genderCode | face3DAngleCode | livenessCode) != ErrorInfo.MOK) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, "at least one of age,gender,face3DAngle detect failed!,codes are:",
-                    String.valueOf(ageCode), " , ", String.valueOf(genderCode), " , ", String.valueOf(face3DAngleCode));
-            showNotificationAndFinish(notificationSpannableStringBuilder);
+        //人脸特征的数量大于2，将所有特征进行比较
+        if (faceInfoList.size() >= 2) {
+            showToast("请提供仅有一张人脸的照片");
             return;
         }
-        /**
-         * 5.年龄、性别、三维角度已获取成功，添加信息到提示文字中
-         */
-        //年龄数据
-        if (ageInfoList.size() > 0) {
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "age of each face:\n");
-        }
-        for (int i = 0; i < ageInfoList.size(); i++) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, "face[", String.valueOf(i), "]:", String.valueOf(ageInfoList.get(i).getAge()), "\n");
-        }
-        addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
-
-        //性别数据
-        if (genderInfoList.size() > 0) {
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "gender of each face:\n");
-        }
-        for (int i = 0; i < genderInfoList.size(); i++) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, "face[", String.valueOf(i), "]:"
-                    , genderInfoList.get(i).getGender() == GenderInfo.MALE ?
-                            "MALE" : (genderInfoList.get(i).getGender() == GenderInfo.FEMALE ? "FEMALE" : "UNKNOWN"), "\n");
-        }
-        addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
-
-
-        //人脸三维角度数据
-        if (face3DAngleList.size() > 0) {
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "face3DAngle of each face:\n");
-            for (int i = 0; i < face3DAngleList.size(); i++) {
-                addNotificationInfo(notificationSpannableStringBuilder, null, "face[", String.valueOf(i), "]:", face3DAngleList.get(i).toString(), "\n");
-            }
-        }
-        addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
-
-        //活体检测数据
-        if (livenessInfoList.size() > 0) {
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "liveness of each face:\n");
-            for (int i = 0; i < livenessInfoList.size(); i++) {
-                String liveness = null;
-                switch (livenessInfoList.get(i).getLiveness()) {
-                    case LivenessInfo.ALIVE:
-                        liveness = "ALIVE";
-                        break;
-                    case LivenessInfo.NOT_ALIVE:
-                        liveness = "NOT_ALIVE";
-                        break;
-                    case LivenessInfo.UNKNOWN:
-                        liveness = "UNKNOWN";
-                        break;
-                    case LivenessInfo.FACE_NUM_MORE_THAN_ONE:
-                        liveness = "FACE_NUM_MORE_THAN_ONE";
-                        break;
-                    default:
-                        liveness = "UNKNOWN";
-                        break;
-                }
-                addNotificationInfo(notificationSpannableStringBuilder, null, "face[", String.valueOf(i), "]:", liveness, "\n");
-            }
-        }
-        addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
 
         /**
          * 6.最后将图片内的所有人脸进行一一比对并添加到提示文字中
          */
         if (faceInfoList.size() > 0) {
 
-            FaceFeature[] faceFeatures = new FaceFeature[faceInfoList.size()];
-            int[] extractFaceFeatureCodes = new int[faceInfoList.size()];
+            FaceFeature faceFeature = new FaceFeature();
+            int extractFaceFeatureCode;
 
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "faceFeatureExtract:\n");
-            for (int i = 0; i < faceInfoList.size(); i++) {
-                faceFeatures[i] = new FaceFeature();
-                //从图片解析出人脸特征数据
-                long frStartTime = System.currentTimeMillis();
-                extractFaceFeatureCodes[i] = faceEngine.extractFaceFeature(bgr24, width, height, FaceEngine.CP_PAF_BGR24, faceInfoList.get(i), faceFeatures[i]);
+            //从图片解析出人脸特征数据
+            long frStartTime = System.currentTimeMillis();
+            extractFaceFeatureCode = faceEngine.extractFaceFeature(bgr24, width, height, FaceEngine.CP_PAF_BGR24, faceInfoList.get(0), faceFeature);
 
-                if (extractFaceFeatureCodes[i] != ErrorInfo.MOK) {
-                    addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(i), "]",
-                            " extract failed, code is ", String.valueOf(extractFaceFeatureCodes[i]), "\n");
-                } else {
+            if (extractFaceFeatureCode != ErrorInfo.MOK) {
+                addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(0), "]"," extract failed, code is ", String.valueOf(extractFaceFeatureCode), "\n");
+            } else {
 //                    Log.i(TAG, "processImage: fr costTime = " + (System.currentTimeMillis() - frStartTime));
-                    addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(i), "]",
-                            " extract success\n");
-                }
-            }
-            addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
+                addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(0), "]"," extract success\n");
 
-            //人脸特征的数量大于2，将所有特征进行比较
-            if (faceFeatures.length >= 2) {
+                //上传人脸特征数据到数据库
+                Observable.create(new ObservableOnSubscribe<Boolean>() {
+                    @Override
+                    public void subscribe(ObservableEmitter<Boolean> emitter) {
 
-                addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "similar of faces:\n");
-
-                for (int i = 0; i < faceFeatures.length; i++) {
-                    for (int j = i + 1; j < faceFeatures.length; j++) {
-                        addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD_ITALIC), "compare face[", String.valueOf(i), "] and  face["
-                                , String.valueOf(j), "]:\n");
-                        //若其中一个特征提取失败，则不进行比对
-                        boolean canCompare = true;
-                        if (extractFaceFeatureCodes[i] != 0) {
-                            addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(i), "] extract failed, can not compare!\n");
-                            canCompare = false;
-                        }
-                        if (extractFaceFeatureCodes[j] != 0) {
-                            addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(j), "] extract failed, can not compare!\n");
-                            canCompare = false;
-                        }
-                        if (!canCompare) {
-                            continue;
-                        }
-
-                        FaceSimilar matching = new FaceSimilar();
-                        //比对两个人脸特征获取相似度信息
-                        faceEngine.compareFaceFeature(faceFeatures[i], faceFeatures[j], CompareModel.LIFE_PHOTO, matching);
-                        //新增相似度比对结果信息
-                        addNotificationInfo(notificationSpannableStringBuilder, null, "similar of face[", String.valueOf(i), "] and  face[",
-                                String.valueOf(j), "] is:", String.valueOf(matching.getScore()), "\n");
+                        boolean ifFeatureUploaded = DBUtils.ifFeatureUploaded(student,faceFeature.getFeatureData());
+                        emitter.onNext(ifFeatureUploaded);
                     }
-                }
+                })
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(Boolean ifFeatureUploaded) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                showToast("register failed!");
+                            }
+
+                            @Override
+                            public void onComplete() {
+                            }
+                        });
             }
+
+            addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
         }
 
         showNotificationAndFinish(notificationSpannableStringBuilder);

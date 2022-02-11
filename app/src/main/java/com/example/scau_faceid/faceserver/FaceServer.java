@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.model.FaceRegisterInfo;
 import com.arcsoft.face.ErrorInfo;
 import com.arcsoft.face.FaceEngine;
@@ -17,6 +18,7 @@ import com.arcsoft.imageutil.ArcSoftImageFormat;
 import com.arcsoft.imageutil.ArcSoftImageUtil;
 import com.arcsoft.imageutil.ArcSoftImageUtilError;
 import com.arcsoft.imageutil.ArcSoftRotateDegree;
+import com.example.scau_faceid.util.DBUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +36,7 @@ public class FaceServer {
     private static FaceEngine faceEngine = null;
     private static FaceServer faceServer = null;
     private static List<FaceRegisterInfo> faceRegisterInfoList;
+    private ArrayList<AccountStudent> students;
     public static String ROOT_PATH;
     /**
      * 存放注册图的目录
@@ -70,7 +73,22 @@ public class FaceServer {
         synchronized (this) {
             if (faceEngine == null && context != null) {
                 faceEngine = new FaceEngine();
-                int engineCode = faceEngine.init(context, DetectMode.ASF_DETECT_MODE_IMAGE, DetectFaceOrientPriority.ASF_OP_0_ONLY, 16, 1, FaceEngine.ASF_FACE_RECOGNITION | FaceEngine.ASF_FACE_DETECT);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DBUtils dbUtils = new DBUtils();
+                        int countStudent = dbUtils.initStudentList();
+                        students = new ArrayList<AccountStudent>();
+                        if (countStudent != 0) {
+                            for (int i = 0; i < countStudent; i++) {
+                                students.add(dbUtils.getStudent(i));//初始化本地人脸库
+                            }
+                        }
+                    }
+                }).start();
+
+                int engineCode = faceEngine.init(context, DetectMode.ASF_DETECT_MODE_IMAGE, DetectFaceOrientPriority.ASF_OP_ALL_OUT, 16, 1, FaceEngine.ASF_FACE_RECOGNITION | FaceEngine.ASF_FACE_DETECT);
                 if (engineCode == ErrorInfo.MOK) {
                     initFaceList(context);
                     return true;
@@ -425,7 +443,7 @@ public class FaceServer {
                 break;
         }
         // 非0度的情况，旋转图像
-        if (rotateDegree != null){
+        if (rotateDegree != null) {
             rotateHeadImageData = new byte[headImageData.length];
             rotateCode = ArcSoftImageUtil.rotateImage(headImageData, rotateHeadImageData, cropRect.width(), cropRect.height(), rotateDegree, imageFormat);
             if (rotateCode != ArcSoftImageUtilError.CODE_SUCCESS) {
@@ -446,8 +464,8 @@ public class FaceServer {
      * @param faceFeature 传入特征数据
      * @return 比对结果
      */
-    public CompareResult getTopOfFaceLib(FaceFeature faceFeature) {
-        if (faceEngine == null || isProcessing || faceFeature == null || faceRegisterInfoList == null || faceRegisterInfoList.size() == 0) {
+    public CompareResult getMostSimilar(FaceFeature faceFeature) {
+        if (faceEngine == null || isProcessing || faceFeature == null || students == null || students.size() == 0) {
             return null;
         }
         FaceFeature tempFaceFeature = new FaceFeature();
@@ -455,17 +473,18 @@ public class FaceServer {
         float maxSimilar = 0;
         int maxSimilarIndex = -1;
         isProcessing = true;
-        for (int i = 0; i < faceRegisterInfoList.size(); i++) {
-            tempFaceFeature.setFeatureData(faceRegisterInfoList.get(i).getFeatureData());
+        for (int i = 0; i < students.size(); i++) {
+            tempFaceFeature.setFeatureData(students.get(i).getFaceFeatureData());
             faceEngine.compareFaceFeature(faceFeature, tempFaceFeature, faceSimilar);
             if (faceSimilar.getScore() > maxSimilar) {
                 maxSimilar = faceSimilar.getScore();
                 maxSimilarIndex = i;
+                Log.i("RenChuNiLa", "getMostSimilar: " + maxSimilar);
             }
         }
         isProcessing = false;
         if (maxSimilarIndex != -1) {
-            return new CompareResult(faceRegisterInfoList.get(maxSimilarIndex).getName(), maxSimilar);
+            return new CompareResult(students.get(maxSimilarIndex).getName(), maxSimilar, students.get(maxSimilarIndex));
         }
         return null;
     }

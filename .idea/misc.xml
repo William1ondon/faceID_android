@@ -18,9 +18,11 @@
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_login_register.xml" value="0.25" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_register_and_recognize.xml" value="0.20104166666666667" />
+        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/check_attendance.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/dialog_horizontal_progress_bar.xml" value="0.2046875" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/recycler_item_multi_face_show_info.xml" value="0.2046875" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/recycler_item_search_result.xml" value="0.20104166666666667" />
+        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/recylerview_item.xml" value="0.19739583333333333" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/smssdk_error_toast_layout.xml" value="0.20104166666666667" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/smssdk_verify_activity.xml" value="0.36614583333333334" />
       </map>

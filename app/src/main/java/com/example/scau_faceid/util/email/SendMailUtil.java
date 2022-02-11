@@ -42,8 +42,8 @@ public class SendMailUtil {
         mailInfo.setPassword(fromPsw);//邮箱密码
         mailInfo.setFromAddress(fromAdd);//发送的邮箱
         mailInfo.setToAddress(toAdd);//发到哪个邮箱
-        mailInfo.setSubject("哈哈");//发送标题
-        mailInfo.setContent("某某平台验证码："+code);//发送文本
+        mailInfo.setSubject("Scau_FaceID");//发送标题
+        mailInfo.setContent("注册验证码："+code);//发送文本
         return mailInfo;
     }
 }

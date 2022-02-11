@@ -18,6 +18,7 @@ import com.arcsoft.face.ActiveFileInfo;
 import com.arcsoft.face.ErrorInfo;
 import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.VersionInfo;
+import com.arcsoft.face.enums.DetectFaceOrientPriority;
 import com.arcsoft.face.enums.RuntimeABI;
 
 import java.io.File;
@@ -35,9 +36,12 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import com.example.scau_faceid.common.Constants;
+import com.example.scau_faceid.info.AccountStudent;
+import com.example.scau_faceid.util.ConfigUtil;
 
 public class MainActivity extends BaseActivity {
 
+    private AccountStudent student;
     private static final String TAG = "MainActivity";
     private static final int ACTION_REQUEST_PERMISSIONS = 0x001;
     // 在线激活所需的权限
@@ -59,6 +63,9 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        student = (AccountStudent) getIntent().getSerializableExtra("data");
+
         String sign = getSignMd5Str();
         Log.i("SIGN", "onCreate: " + sign);
         libraryExists = checkSoFile(LIBRARIES);
@@ -71,6 +78,7 @@ public class MainActivity extends BaseActivity {
             int code = FaceEngine.getVersion(versionInfo);
             Log.i(TAG, "onCreate: getVersion, code is: " + code + ", versionInfo is: " + versionInfo);
         }
+        ConfigUtil.setFtOrient(this, DetectFaceOrientPriority.ASF_OP_ALL_OUT);//设置人脸识别角度为全向识别
         activeEngine(getCurrentFocus());
     }
 
@@ -164,7 +172,7 @@ public class MainActivity extends BaseActivity {
             Log.i(TAG, "checkLibraryAndJump: Library not found");
             return;
         }
-        startActivity(new Intent(this, activityClass));
+        startActivity(new Intent(this, activityClass).putExtra("data",student));
     }
 
     /**

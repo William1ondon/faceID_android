@@ -17,13 +17,6 @@
             android:layout_height="match_parent" />
     </FrameLayout>
 
-    <Switch
-        android:id="@+id/single_camera_switch_liveness_detect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="20dp"
-        android:text="@string/liveness_detect" />
 
     <LinearLayout
         android:layout_margin="20dp"
@@ -34,8 +27,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="register"
-            android:text="@string/register" />
+            android:onClick="check"
+            android:text="@string/check" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
