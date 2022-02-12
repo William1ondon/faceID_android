@@ -34,9 +34,9 @@ import io.reactivex.schedulers.Schedulers;
 public class ConfirmActivity extends BaseActivity {
 
     public AccountStudent student;
-    private Button btnSendMsg, btnSubmitCode;
+    private TextView btnSendMsg, btnSubmitCode, email;
     private TimeCount time;
-    private EditText etEmail, etCode;
+    private EditText etCode;
     private int i = 60;
     private String To;
     private String code;
@@ -48,7 +48,7 @@ public class ConfirmActivity extends BaseActivity {
         setContentView(R.layout.activity_confirm);
 
         //隐藏标题栏
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
@@ -57,8 +57,8 @@ public class ConfirmActivity extends BaseActivity {
         btnSendMsg = findViewById(R.id.btnSendMsg);
         btnSubmitCode = findViewById(R.id.btnSubmitCode);
         etCode = findViewById(R.id.etCode);
-        etEmail = findViewById(R.id.etEmail);
-        etEmail.setText(student.getEmail());
+        email = findViewById(R.id.email);
+        email.setText("邮箱:" + student.getEmail());
 
         time = new TimeCount(60000, 1000, btnSendMsg);//构造CountDownTimer对象
 
@@ -66,7 +66,7 @@ public class ConfirmActivity extends BaseActivity {
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                To = etEmail.getText().toString();
+                To = student.getEmail();
                 code = new CreateCode().getCode();
                 new SendMailUtil(To, code);
                 time.start();
@@ -128,24 +128,24 @@ public class ConfirmActivity extends BaseActivity {
     }
 
     class TimeCount extends CountDownTimer {
-        private Button btn;
+        private TextView textView;
 
-        public TimeCount(long millisInFuture, long countDownInterval, Button btn) {
+        public TimeCount(long millisInFuture, long countDownInterval, TextView textView) {
 
             super(millisInFuture, countDownInterval);//参数依次为总时长,和计时的时间间隔
-            this.btn = btn;
+            this.textView = textView;
         }
 
         @Override
         public void onFinish() {//计时完毕时触发
-            btn.setText("重新验证");
-            btn.setClickable(true);
+            textView.setText("重新验证");
+            textView.setClickable(true);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {//计时过程显示
-            btn.setClickable(false);
-            btn.setText(millisUntilFinished / 1000 + "秒");
+            textView.setClickable(false);
+            textView.setText(millisUntilFinished / 1000 + "秒");
         }
     }
 }

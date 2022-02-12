@@ -8,13 +8,6 @@
     tools:context=".login.LoginRegisterActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,12 +67,7 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
                 android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@id/guideline14"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/guideline9"
-                app:layout_constraintVertical_bias="0.5" />
+                android:singleLine="true"/>
         </LinearLayout>
 
 
@@ -115,13 +103,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@id/guideline17"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/guideline14"
-                app:layout_constraintVertical_bias="0.5" />
+                android:textSize="@dimen/fontSize_2"/>
         </LinearLayout>
 
         <LinearLayout
@@ -156,13 +138,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@id/guideline9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/guideline8"
-                app:layout_constraintVertical_bias="0.5" />
+                android:textSize="@dimen/fontSize_2" />
         </LinearLayout>
 
         <LinearLayout
@@ -196,13 +172,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@+id/guideline16"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/guideline17"
-                app:layout_constraintVertical_bias="0.5" />
+                android:textSize="@dimen/fontSize_2"/>
         </LinearLayout>
 
         <LinearLayout
@@ -238,13 +208,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@id/guideline8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/guideline10"
-                app:layout_constraintVertical_bias="0.5" />
+                android:textSize="@dimen/fontSize_2" />
         </LinearLayout>
 
         <LinearLayout
@@ -279,21 +243,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@id/guideline10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline15"
-                app:layout_constraintVertical_bias="0.5" />
+                android:textSize="@dimen/fontSize_2" />
         </LinearLayout>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.06" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline15"
@@ -363,13 +314,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:textSize="@dimen/fontSize_2"
-                app:layout_constraintBottom_toTopOf="@+id/guideline15"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline18"
-                app:layout_constraintVertical_bias="0.5" />
+                android:singleLine="true"
+                android:textSize="@dimen/fontSize_2" />
         </LinearLayout>
 
         <LinearLayout
