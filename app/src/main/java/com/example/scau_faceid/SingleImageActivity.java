@@ -2,11 +2,13 @@ package com.example.scau_faceid;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -19,11 +21,13 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.RoundedCorner;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
@@ -44,10 +48,18 @@ import com.arcsoft.imageutil.ArcSoftImageFormat;
 import com.arcsoft.imageutil.ArcSoftImageUtil;
 import com.arcsoft.imageutil.ArcSoftImageUtilError;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
+import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.util.DBUtils;
+import com.example.scau_faceid.util.GlideRoundTransform;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,19 +104,25 @@ public class SingleImageActivity extends BaseActivity {
             Manifest.permission.READ_PHONE_STATE
     };
 
+    private RequestOptions options;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_process);
 
         //隐藏标题栏
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        student = (AccountStudent)getIntent().getSerializableExtra("data");
+        student = (AccountStudent) getIntent().getSerializableExtra("data");
 
         Log.d("OMG", "onCreate: 1");
+
+        options = new RequestOptions()
+                .transform(new GlideRoundTransform(45)); //圆角+旋转,贪方便所以旋转角度写死了
+
         initView();
         /**
          * 在选择图片的时候，在android 7.0及以上通过FileProvider获取Uri，不需要文件权限
@@ -200,12 +218,10 @@ public class SingleImageActivity extends BaseActivity {
                 .subscribe(new Observer<Object>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override
                     public void onNext(Object o) {
-
                     }
 
                     @Override
@@ -236,18 +252,15 @@ public class SingleImageActivity extends BaseActivity {
 
         final SpannableStringBuilder notificationSpannableStringBuilder = new SpannableStringBuilder();
         if (faceEngineCode != ErrorInfo.MOK) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, " face engine not initialized!");
-            showNotificationAndFinish(notificationSpannableStringBuilder);
+            showToast("face engine not initialized!");
             return;
         }
         if (bitmap == null) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, " bitmap is null!");
-            showNotificationAndFinish(notificationSpannableStringBuilder);
+            showToast("bitmap is null!");
             return;
         }
         if (faceEngine == null) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, " faceEngine is null!");
-            showNotificationAndFinish(notificationSpannableStringBuilder);
+            showToast("faceEngine is null!");
             return;
         }
 
@@ -259,6 +272,7 @@ public class SingleImageActivity extends BaseActivity {
             public void run() {
                 Glide.with(ivShow.getContext())
                         .load(finalBitmap)
+                        .apply(options)
                         .into(ivShow);
             }
         });
@@ -269,12 +283,10 @@ public class SingleImageActivity extends BaseActivity {
         int transformCode = ArcSoftImageUtil.bitmapToImageData(bitmap, bgr24, ArcSoftImageFormat.BGR24);
         if (transformCode != ArcSoftImageUtilError.CODE_SUCCESS) {
             Log.e(TAG, "transform failed, code is " + transformCode);
-            addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "transform bitmap To ImageData failed", "code is ", String.valueOf(transformCode), "\n");
+            showToast("transform bitmap To ImageData failed, code is " + String.valueOf(transformCode));
             return;
         }
 //        Log.i(TAG, "processImage:bitmapToBgr24 cost =  " + (System.currentTimeMillis() - start));
-        addNotificationInfo(notificationSpannableStringBuilder, new StyleSpan(Typeface.BOLD), "start face detection,imageWidth is ", String.valueOf(width), ", imageHeight is ", String.valueOf(height), "\n");
-
         List<FaceInfo> faceInfoList = new ArrayList<>();
 
         /**
@@ -293,12 +305,10 @@ public class SingleImageActivity extends BaseActivity {
         Bitmap bitmapForDraw = bitmap.copy(Bitmap.Config.RGB_565, true);
         Canvas canvas = new Canvas(bitmapForDraw);
         Paint paint = new Paint();
-        addNotificationInfo(notificationSpannableStringBuilder, null, "detect result:\nerrorCode is :", String.valueOf(detectCode), "   face Number is ", String.valueOf(faceInfoList.size()), "\n");
         /**
          * 3.若检测结果人脸数量大于0，则在bitmap上绘制人脸框并且重新显示到ImageView，若人脸数量为0，则无法进行下一步操作，操作结束
          */
         if (faceInfoList.size() > 0) {
-            addNotificationInfo(notificationSpannableStringBuilder, null, "face list:\n");
             paint.setAntiAlias(true);
             paint.setStrokeWidth(5);
             paint.setColor(Color.YELLOW);
@@ -307,12 +317,11 @@ public class SingleImageActivity extends BaseActivity {
                 paint.setStyle(Paint.Style.STROKE);
                 canvas.drawRect(faceInfoList.get(i).getRect(), paint);
                 //绘制人脸序号
-                paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                /*paint.setStyle(Paint.Style.FILL_AND_STROKE);
                 int textSize = faceInfoList.get(i).getRect().width() / 2;
-                paint.setTextSize(textSize);
+                paint.setTextSize(textSize);*/
 
                 canvas.drawText(String.valueOf(i), faceInfoList.get(i).getRect().left, faceInfoList.get(i).getRect().top, paint);
-                addNotificationInfo(notificationSpannableStringBuilder, null, "face[", String.valueOf(i), "]:", faceInfoList.get(i).toString(), "\n");
             }
             //显示
             final Bitmap finalBitmapForDraw = bitmapForDraw;
@@ -321,16 +330,14 @@ public class SingleImageActivity extends BaseActivity {
                 public void run() {
                     Glide.with(ivShow.getContext())
                             .load(finalBitmapForDraw)
+                            .apply(options)
                             .into(ivShow);
                 }
             });
         } else {
-            addNotificationInfo(notificationSpannableStringBuilder, null, "can not do further action, exit!");
-            showNotificationAndFinish(notificationSpannableStringBuilder);
+            showToast("can not do further action, exit!");
             return;
         }
-        addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
-
         //人脸特征的数量大于2，将所有特征进行比较
         if (faceInfoList.size() >= 2) {
             showToast("请提供仅有一张人脸的照片");
@@ -350,17 +357,16 @@ public class SingleImageActivity extends BaseActivity {
             extractFaceFeatureCode = faceEngine.extractFaceFeature(bgr24, width, height, FaceEngine.CP_PAF_BGR24, faceInfoList.get(0), faceFeature);
 
             if (extractFaceFeatureCode != ErrorInfo.MOK) {
-                addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(0), "]"," extract failed, code is ", String.valueOf(extractFaceFeatureCode), "\n");
+
             } else {
 //                    Log.i(TAG, "processImage: fr costTime = " + (System.currentTimeMillis() - frStartTime));
-                addNotificationInfo(notificationSpannableStringBuilder, null, "faceFeature of face[", String.valueOf(0), "]"," extract success\n");
 
                 //上传人脸特征数据到数据库
                 Observable.create(new ObservableOnSubscribe<Boolean>() {
                     @Override
                     public void subscribe(ObservableEmitter<Boolean> emitter) {
 
-                        boolean ifFeatureUploaded = DBUtils.ifFeatureUploaded(student,faceFeature.getFeatureData());
+                        boolean ifFeatureUploaded = DBUtils.ifFeatureUploaded(student, faceFeature.getFeatureData());
                         emitter.onNext(ifFeatureUploaded);
                     }
                 })
@@ -373,7 +379,9 @@ public class SingleImageActivity extends BaseActivity {
 
                             @Override
                             public void onNext(Boolean ifFeatureUploaded) {
-
+                                if (ifFeatureUploaded == true) {
+                                    progressDialog.dismiss();
+                                }
                             }
 
                             @Override
@@ -387,53 +395,9 @@ public class SingleImageActivity extends BaseActivity {
                             }
                         });
             }
-
-            addNotificationInfo(notificationSpannableStringBuilder, null, "\n");
-        }
-
-        showNotificationAndFinish(notificationSpannableStringBuilder);
-
-    }
-
-    /**
-     * 展示提示信息并且关闭提示框
-     *
-     * @param stringBuilder 带格式的提示文字
-     */
-    private void showNotificationAndFinish(final SpannableStringBuilder stringBuilder) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (tvNotice != null) {
-                    tvNotice.setText(stringBuilder);
-                }
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            }
-        });
-    }
-
-    /**
-     * 追加提示信息
-     *
-     * @param stringBuilder 提示的字符串的存放对象
-     * @param styleSpan     添加的字符串的格式
-     * @param strings       字符串数组
-     */
-    private void addNotificationInfo(SpannableStringBuilder stringBuilder, ParcelableSpan styleSpan, String... strings) {
-        if (stringBuilder == null || strings == null || strings.length == 0) {
-            return;
-        }
-        int startLength = stringBuilder.length();
-        for (String string : strings) {
-            stringBuilder.append(string);
-        }
-        int endLength = stringBuilder.length();
-        if (styleSpan != null) {
-            stringBuilder.setSpan(styleSpan, startLength, endLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
     }
+
 
     /**
      * 从本地选择文件
@@ -479,7 +443,31 @@ public class SingleImageActivity extends BaseActivity {
             // 如果需要在Fragment或Activity的生命周期之外，比如在service中或作为Notification的缩略图使用，则使用Glide.with(Context)。
             Glide.with(ivShow.getContext())
                     .load(mBitmap)
+                    .apply(options)
                     .into(ivShow);
+        }
+    }
+
+
+    public class RotateTransformation extends BitmapTransformation {
+
+        private float rotateRotationAngle = 0f;
+
+        public RotateTransformation(float rotateRotationAngle) {
+            this.rotateRotationAngle = rotateRotationAngle;
+        }
+
+        @Override
+        protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
+            Matrix matrix = new Matrix();
+
+            matrix.postRotate(rotateRotationAngle);
+
+            return Bitmap.createBitmap(toTransform, 0, 0, toTransform.getWidth(), toTransform.getHeight(), matrix, true);
+        }
+
+        @Override
+        public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
         }
     }
 

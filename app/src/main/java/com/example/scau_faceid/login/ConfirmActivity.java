@@ -127,7 +127,7 @@ public class ConfirmActivity extends BaseActivity {
     public void afterRequestPermission(int requestCode, boolean isAllGranted) {
     }
 
-    class TimeCount extends CountDownTimer {
+    private class TimeCount extends CountDownTimer {
         private TextView textView;
 
         public TimeCount(long millisInFuture, long countDownInterval, TextView textView) {

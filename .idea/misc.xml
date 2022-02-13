@@ -13,13 +13,13 @@
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/drawable/style_ellipse_white.xml" value="0.22083333333333333" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/action_bar.xml" value="0.20104166666666667" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_confirm.xml" value="0.33" />
-        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_image_process.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_image_process.xml" value="0.18" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_login_register.xml" value="0.25" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_modifypassword.xml" value="0.25" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/activity_register_and_recognize.xml" value="0.20104166666666667" />
-        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/check_attendance.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/check_attendance.xml" value="0.25" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/dialog_horizontal_progress_bar.xml" value="0.2046875" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/recycler_item_multi_face_show_info.xml" value="0.2046875" />
         <entry key="..\:/Android_Studio/Scau_FaceID/app/src/main/res/layout/recycler_item_search_result.xml" value="0.20104166666666667" />

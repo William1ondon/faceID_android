@@ -1,6 +1,8 @@
 package com.example.scau_faceid;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,6 +19,9 @@ import java.util.List;
 public class CheckAttendance extends BaseActivity {
     private DBEngine dbEngine;
     private List<SQliteStudent> studentArrayList = null;
+    private RecyclerView recyclerView;
+    private GridLayoutManager gridLayoutManager;
+    private AttendanceAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +34,19 @@ public class CheckAttendance extends BaseActivity {
         }
 
         initEngineAndStudentData();
+
+        TextView clearTextView = findViewById(R.id.btnClearAll);
+        clearTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(dbEngine == null){
+                    dbEngine = new DBEngine(CheckAttendance.this);
+                }
+                dbEngine.deleteAllStudents();
+                adapter = new AttendanceAdapter(CheckAttendance.this, null);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
 
     private void initEngineAndStudentData() {
@@ -40,12 +58,12 @@ public class CheckAttendance extends BaseActivity {
             public void onDataReceivedSuccess(List<SQliteStudent> listData) {
                 studentArrayList = listData;
 
-                RecyclerView recyclerView = findViewById(R.id.attendance_rv);
+                recyclerView = findViewById(R.id.attendance_rv);
 
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(CheckAttendance.this, 1);
+                gridLayoutManager = new GridLayoutManager(CheckAttendance.this, 1);
                 recyclerView.setLayoutManager(gridLayoutManager);
 
-                AttendanceAdapter adapter = new AttendanceAdapter(CheckAttendance.this, studentArrayList);
+                adapter = new AttendanceAdapter(CheckAttendance.this, studentArrayList);
                 recyclerView.setAdapter(adapter);
             }
 

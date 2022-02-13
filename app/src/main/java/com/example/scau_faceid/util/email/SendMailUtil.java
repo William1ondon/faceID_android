@@ -43,7 +43,7 @@ public class SendMailUtil {
         mailInfo.setFromAddress(fromAdd);//发送的邮箱
         mailInfo.setToAddress(toAdd);//发到哪个邮箱
         mailInfo.setSubject("Scau_FaceID");//发送标题
-        mailInfo.setContent("注册验证码："+code);//发送文本
+        mailInfo.setContent("验证码："+code);//发送文本
         return mailInfo;
     }
 }

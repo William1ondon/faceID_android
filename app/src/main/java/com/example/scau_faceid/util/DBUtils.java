@@ -193,7 +193,6 @@ public class DBUtils {
     public static boolean ifFeatureUploaded(AccountStudent student, byte[] dbFaceFeature) {
         String afterReplace = Base64Encoder(dbFaceFeature);
         Base64Decoder(afterReplace);
-        Log.i("WEIWEIWEI", "ifFeatureUploaded: " + afterReplace + "长度为:" + afterReplace.length());
         String sql = "update StudentInfo set FaceFeature = '" + afterReplace + "' where Account = '" + student.getAccount() + "'";
         Connection conn = getConnection("test_database");
         PreparedStatement pstmt = null;
@@ -230,6 +229,22 @@ public class DBUtils {
             Log.i("WEIWEIWEI", "Base64Decoder: " + justForCheck);
         }
         return result;
+    }
+
+    public static boolean updatePassword(String etPassword, String email) {
+        String sql = "update StudentInfo set Password = '" + etPassword + "' where Email = '" + email + "'";
+        Connection conn = getConnection("test_database");
+        PreparedStatement pstmt = null;
+        try {
+            pstmt = conn.prepareStatement(sql);
+            boolean success = pstmt.execute();
+            close(conn);
+            return !success;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        close(conn);
+        return false;
     }
 
 
