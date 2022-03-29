@@ -3,25 +3,22 @@ package com.example.scau_faceid.login;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
-import android.widget.CompoundButton;
+
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.scau_faceid.BaseActivity;
-import com.example.scau_faceid.MainActivity;
+
 import com.example.scau_faceid.R;
 import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.util.CommenUtil;
 import com.example.scau_faceid.util.DBUtils;
 import com.example.scau_faceid.util.ViewUtils;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -32,13 +29,6 @@ import io.reactivex.schedulers.Schedulers;
 
 @SuppressLint("NonConstantResourceId")
 public class LoginRegisterActivity extends BaseActivity {
-    /*@BindView(R.id.account_register_name) EditText nameText;
-    @BindView(R.id.account_register_account) EditText studentText;
-    @BindView(R.id.account_register_password) EditText passwordText;
-    @BindView(R.id.account_register_confirm) EditText confirmText;
-    @BindView(R.id.account_register_class) EditText classText;
-    @BindView(R.id.account_register_phone) EditText phoneText;
-    @BindView(R.id.account_register_email) EditText emailText;*/
 
     private EditText nameText;
     private EditText studentText;
@@ -117,7 +107,7 @@ public class LoginRegisterActivity extends BaseActivity {
                 emitter.onNext(if_repeated);
             }
         })
-                .subscribeOn(Schedulers.computation())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>() {
                     @Override

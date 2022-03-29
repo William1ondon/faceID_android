@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.scau_faceid.BaseActivity;
 import com.example.scau_faceid.MainActivity;
@@ -19,14 +16,7 @@ import com.example.scau_faceid.R;
 import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.info.AccountTeacher;
 import com.example.scau_faceid.util.DBUtils;
-import com.example.scau_faceid.util.ProjectStatic;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -140,7 +130,7 @@ public class LoginActivity extends BaseActivity {
                     emitter.onNext(success);
                 }
             })
-                    .subscribeOn(Schedulers.computation())
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Boolean>() {
                         @Override

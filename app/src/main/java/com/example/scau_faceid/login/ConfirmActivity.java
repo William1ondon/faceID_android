@@ -3,14 +3,10 @@ package com.example.scau_faceid.login;
 import android.content.Intent;
 import android.os.CountDownTimer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.scau_faceid.BaseActivity;
 import com.example.scau_faceid.MainActivity;
@@ -62,13 +58,12 @@ public class ConfirmActivity extends BaseActivity {
 
         time = new TimeCount(60000, 1000, btnSendMsg);//构造CountDownTimer对象
 
-
         btnSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 To = student.getEmail();
                 code = new CreateCode().getCode();
-                new SendMailUtil(To, code);
+                new SendMailUtil(To, code);//发送邮件！！！
                 time.start();
             }
         });
@@ -87,7 +82,7 @@ public class ConfirmActivity extends BaseActivity {
                             emitter.onNext(if_uploaded);
                         }
                     })
-                            .subscribeOn(Schedulers.computation())
+                            .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<Boolean>() {
                                 @Override

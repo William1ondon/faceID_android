@@ -7,18 +7,14 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
-//import android.support.v7.widget.DefaultItemAnimator;
-//import android.support.v7.widget.GridLayoutManager;
-//import android.support.v7.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -38,16 +34,16 @@ import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.model.DrawInfo;
 import com.example.scau_faceid.model.FacePreviewInfo;
 import com.example.scau_faceid.util.ConfigUtil;
-import com.example.scau_faceid.util.DBUtils;
+
 import com.example.scau_faceid.util.DrawHelper;
 import com.example.scau_faceid.util.camera.CameraHelper;
 import com.example.scau_faceid.util.camera.CameraListener;
 import com.example.scau_faceid.util.face.FaceHelper;
 import com.example.scau_faceid.util.face.FaceListener;
-import com.example.scau_faceid.util.face.LivenessType;
+
 import com.example.scau_faceid.util.face.RecognizeColor;
 import com.example.scau_faceid.util.face.RequestFeatureStatus;
-import com.example.scau_faceid.util.face.RequestLivenessStatus;
+
 import com.example.scau_faceid.util.sqlite.DBEngine;
 import com.example.scau_faceid.util.sqlite.SQliteStudent;
 import com.example.scau_faceid.widget.FaceRectView;
@@ -62,7 +58,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 import java.util.concurrent.ConcurrentHashMap;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -149,8 +147,6 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
      */
     private FaceRectView faceRectView;
 
-    private Switch switchLivenessDetect;
-
     private static final int ACTION_REQUEST_PERMISSIONS = 0x001;
     /**
      * 识别阈值
@@ -189,6 +185,8 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         //云数据库-本地人脸库初始化
         FaceServer.getInstance().init(this);
+
+        //ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(9,16,60,TimeUnit.MILLISECONDS, ArrayBlockingQueue);
 
         initView();
     }
@@ -629,10 +627,6 @@ public class RegisterAndRecognizeActivity extends BaseActivity implements ViewTr
                             String currentTime = simpleDateFormat.format(new Date());
                             SQliteStudent sQliteStudent = new SQliteStudent(tempStudent.getName()
                                     , tempStudent.getAccount()
-                                    , tempStudent.getSex()
-                                    , tempStudent.getMajor()
-                                    , tempStudent.getPhone()
-                                    , tempStudent.getEmail()
                                     , currentTime);
                             dbEngine.updateStudentsNewThread(sQliteStudent);
                             /*for (SQliteStudent student : list) {

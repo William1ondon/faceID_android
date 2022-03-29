@@ -1,7 +1,5 @@
 package com.example.scau_faceid.info;
 
-import androidx.annotation.Nullable;
-
 import java.io.Serializable;
 
 public class AccountStudent implements Serializable {

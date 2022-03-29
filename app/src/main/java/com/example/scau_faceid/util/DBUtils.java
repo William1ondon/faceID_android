@@ -2,25 +2,18 @@ package com.example.scau_faceid.util;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.arcsoft.face.FaceFeature;
-import com.example.scau_faceid.faceserver.CompareResult;
 import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.info.AccountTeacher;
-import com.mysql.jdbc.util.Base64Decoder;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Base64;
 
 public class DBUtils {
@@ -192,7 +185,6 @@ public class DBUtils {
 
     public static boolean ifFeatureUploaded(AccountStudent student, byte[] dbFaceFeature) {
         String afterReplace = Base64Encoder(dbFaceFeature);
-        Base64Decoder(afterReplace);
         String sql = "update StudentInfo set FaceFeature = '" + afterReplace + "' where Account = '" + student.getAccount() + "'";
         Connection conn = getConnection("test_database");
         PreparedStatement pstmt = null;
@@ -225,8 +217,6 @@ public class DBUtils {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             base64 = Base64.getDecoder();
             result = base64.decode(s);
-            justForCheck = new String(result);
-            Log.i("WEIWEIWEI", "Base64Decoder: " + justForCheck);
         }
         return result;
     }
@@ -258,10 +248,8 @@ public class DBUtils {
             rs = pstmt.executeQuery();
             while (rs.next()) {
                 if (rs.getObject("FaceFeature") != null) {
-                    Log.i("SHAQINGKUANG", "initStudentList: " + rs.getObject("Name").toString()+" "+rs.getObject("Account").toString()+" "+rs.getObject("Password").toString()+" "+(Boolean) rs.getObject("Sex")+" "+rs.getObject("Major").toString()+" "+rs.getObject("Phone").toString()+" "+rs.getObject("Email").toString()+" "+Base64Decoder(rs.getObject("FaceFeature").toString()).toString());
                     byte[] tempBytes = Base64Decoder(rs.getObject("FaceFeature").toString());
                     String s = new String(tempBytes);
-                    Log.i("SHAQINGKUANG", "initStudentList: "+s);
                     StudentList.add(new AccountStudent(rs.getObject("Name").toString()
                             , rs.getObject("Account").toString()
                             , rs.getObject("Password").toString()
@@ -270,7 +258,6 @@ public class DBUtils {
                             , rs.getObject("Phone").toString()
                             , rs.getObject("Email").toString()
                             , tempBytes));
-                    Log.i("SHAQINGKUANG", "initStudentList: ");
                 }
             }
 

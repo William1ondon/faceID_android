@@ -1,6 +1,5 @@
 package com.example.scau_faceid;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -10,7 +9,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
+
 import android.util.Log;
 import android.view.View;
 
@@ -72,16 +71,12 @@ public class MainActivity extends BaseActivity {
         student = (AccountStudent) getIntent().getSerializableExtra("data");
 
         String sign = getSignMd5Str();
-        Log.i("SIGN", "onCreate: " + sign);
         libraryExists = checkSoFile(LIBRARIES);
         ApplicationInfo applicationInfo = getApplicationInfo();
-        Log.i(TAG, "onCreate: " + applicationInfo.nativeLibraryDir);
         if (!libraryExists) {
-            Log.i(TAG, "onCreate: Library not found");
         }else {
             VersionInfo versionInfo = new VersionInfo();
             int code = FaceEngine.getVersion(versionInfo);
-            Log.i(TAG, "onCreate: getVersion, code is: " + code + ", versionInfo is: " + versionInfo);
         }
         ConfigUtil.setFtOrient(this, DetectFaceOrientPriority.ASF_OP_ALL_OUT);//设置人脸识别角度为全向识别
         activeEngine(getCurrentFocus());
@@ -143,7 +138,6 @@ public class MainActivity extends BaseActivity {
      * @param view
      */
     public void jumpToFaceRecognizeActivity(View view) {
-        Log.i("GOSH", "jumpToFaceRecognizeActivity: 1");
         checkLibraryAndJump(RegisterAndRecognizeActivity.class);//啊这
     }
 
@@ -200,12 +194,8 @@ public class MainActivity extends BaseActivity {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) {
-                RuntimeABI runtimeABI = FaceEngine.getRuntimeABI();
-                Log.i(TAG, "subscribe: getRuntimeABI() " + runtimeABI);
 
-                long start = System.currentTimeMillis();
                 int activeCode = FaceEngine.activeOnline(MainActivity.this, Constants.APP_ID, Constants.SDK_KEY);
-                Log.i(TAG, "subscribe cost: " + (System.currentTimeMillis() - start));
                 emitter.onNext(activeCode);
             }
         })
@@ -219,13 +209,6 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onNext(Integer activeCode) {
-                        /*if (activeCode == ErrorInfo.MOK) {
-                            showToast(getString(R.string.active_success));
-                        } else if (activeCode == ErrorInfo.MERR_ASF_ALREADY_ACTIVATED) {
-                            showToast(getString(R.string.already_activated));
-                        } else {
-                            showToast(getString(R.string.active_failed, activeCode));
-                        }*/
 
                         if (view != null) {
                             view.setClickable(true);

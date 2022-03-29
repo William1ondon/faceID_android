@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+
 
 import com.example.scau_faceid.BaseActivity;
-import com.example.scau_faceid.MainActivity;
+
 import com.example.scau_faceid.R;
 import com.example.scau_faceid.util.DBUtils;
 import com.example.scau_faceid.util.email.CreateCode;
@@ -22,7 +21,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -108,7 +107,7 @@ public class ModifyPasswordActivity extends BaseActivity {
                             emitter.onNext(if_updated);
                         }
                     })
-                            .subscribeOn(Schedulers.computation())
+                            .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Observer<Boolean>() {
                                 @Override

@@ -2,7 +2,7 @@ package com.example.scau_faceid;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,18 +10,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Typeface;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import android.text.ParcelableSpan;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+
 import android.util.Log;
-import android.view.RoundedCorner;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,16 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
-import com.arcsoft.face.AgeInfo;
+
 import com.arcsoft.face.ErrorInfo;
-import com.arcsoft.face.Face3DAngle;
+
 import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.FaceFeature;
 import com.arcsoft.face.FaceInfo;
-import com.arcsoft.face.FaceSimilar;
-import com.arcsoft.face.GenderInfo;
-import com.arcsoft.face.LivenessInfo;
-import com.arcsoft.face.enums.CompareModel;
+
 import com.arcsoft.face.enums.DetectFaceOrientPriority;
 import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.DetectModel;
@@ -48,11 +42,10 @@ import com.arcsoft.imageutil.ArcSoftImageFormat;
 import com.arcsoft.imageutil.ArcSoftImageUtil;
 import com.arcsoft.imageutil.ArcSoftImageUtilError;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import com.bumptech.glide.request.RequestOptions;
 import com.example.scau_faceid.info.AccountStudent;
 import com.example.scau_faceid.util.DBUtils;
@@ -292,10 +285,6 @@ public class SingleImageActivity extends BaseActivity {
         /**
          * 2.成功获取到了BGR24 数据，开始人脸检测
          */
-        long fdStartTime = System.currentTimeMillis();
-//        ArcSoftImageInfo arcSoftImageInfo = new ArcSoftImageInfo(width,height,FaceEngine.CP_PAF_BGR24,new byte[][]{bgr24},new int[]{width * 3});
-//        Log.i(TAG, "processImage: " + arcSoftImageInfo.getPlanes()[0].length);
-//        int detectCode = faceEngine.detectFaces(arcSoftImageInfo, faceInfoList);
         int detectCode = faceEngine.detectFaces(bgr24, width, height, FaceEngine.CP_PAF_BGR24, DetectModel.RGB, faceInfoList);
         if (detectCode == ErrorInfo.MOK) {
 //            Log.i(TAG, "processImage: fd costTime = " + (System.currentTimeMillis() - fdStartTime));
@@ -353,7 +342,6 @@ public class SingleImageActivity extends BaseActivity {
             int extractFaceFeatureCode;
 
             //从图片解析出人脸特征数据
-            long frStartTime = System.currentTimeMillis();
             extractFaceFeatureCode = faceEngine.extractFaceFeature(bgr24, width, height, FaceEngine.CP_PAF_BGR24, faceInfoList.get(0), faceFeature);
 
             if (extractFaceFeatureCode != ErrorInfo.MOK) {
@@ -370,7 +358,7 @@ public class SingleImageActivity extends BaseActivity {
                         emitter.onNext(ifFeatureUploaded);
                     }
                 })
-                        .subscribeOn(Schedulers.computation())
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Boolean>() {
                             @Override
@@ -452,10 +440,6 @@ public class SingleImageActivity extends BaseActivity {
     public class RotateTransformation extends BitmapTransformation {
 
         private float rotateRotationAngle = 0f;
-
-        public RotateTransformation(float rotateRotationAngle) {
-            this.rotateRotationAngle = rotateRotationAngle;
-        }
 
         @Override
         protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
